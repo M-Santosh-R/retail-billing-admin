@@ -8,7 +8,8 @@ import StoreDetail from './pages/StoreDetail';
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const token = localStorage.getItem('admin_token');
-  return token ? <>{children}</> : <Navigate to="/login" replace />;
+  const role = localStorage.getItem('admin_role');
+  return token && role === 'admin' ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
 export default function App() {

@@ -2,6 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-gray-50 text-gray-900;
+@layer base {
+  body {
+    @apply bg-gray-50 text-slate-900 antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  input, select, textarea { @apply text-sm; }
+}
+
+@layer components {
+  .field {
+    @apply w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white
+           placeholder:text-gray-400
+           focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+           transition-colors duration-150;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-1.5
+           bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium
+           hover:bg-indigo-700 active:bg-indigo-800
+           disabled:opacity-40 disabled:cursor-not-allowed
+           transition-colors duration-150 shadow-sm;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-1.5
+           bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-md text-sm font-medium
+           hover:bg-gray-50 active:bg-gray-100 disabled:opacity-40
+           transition-colors duration-150 shadow-sm;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-1.5
+           text-gray-600 px-4 py-2 rounded-md text-sm font-medium
+           hover:bg-gray-100 active:bg-gray-200 disabled:opacity-40
+           transition-colors duration-150;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-1.5
+           bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium
+           hover:bg-red-700 disabled:opacity-40
+           transition-colors duration-150 shadow-sm;
+  }
+
+  .card {
+    @apply bg-white rounded-lg border border-gray-200 shadow-sm;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
 }

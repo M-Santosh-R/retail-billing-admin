@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const client = axios.create({
-  baseURL: `https://retail-billing-backend.vercel.app/api`,
+  baseURL: import.meta.env.VITE_API_URL || `http://localhost:3000/api`,
 });
 
 client.interceptors.request.use((config) => {
@@ -31,10 +31,31 @@ export const adminApi = {
 
   getStores: () => client.get('/admin/stores').then((r) => r.data),
 
-  updateSubscription: (storeId: string, data: { plan: string; expiryDate: string; isActive: boolean }) =>
+  updateSubscription: (storeId: string, data: { plan: string; expiryDate: string; isActive: boolean; maxDevices: number }) =>
     client.put(`/admin/stores/${storeId}/subscription`, data).then((r) => r.data),
 
   getStoreDevices: (storeId: string) => client.get(`/admin/stores/${storeId}/devices`).then((r) => r.data),
 
   forceLogout: (deviceId: string) => client.delete(`/admin/devices/${deviceId}`).then((r) => r.data),
+
+  getStoreBills: (storeId: string, params?: { search?: string; startDate?: string; endDate?: string; page?: number; limit?: number }) =>
+    client.get(`/admin/stores/${storeId}/bills`, { params }).then((r) => r.data),
+
+  getStoreBill: (storeId: string, billId: string) =>
+    client.get(`/admin/stores/${storeId}/bills/${billId}`).then((r) => r.data),
+
+  getStoreReports: (storeId: string, params?: { startDate?: string; endDate?: string }) =>
+    client.get(`/admin/stores/${storeId}/reports`, { params }).then((r) => r.data),
+
+  getStore: (storeId: string) =>
+    client.get(`/admin/stores/${storeId}`).then((r) => r.data),
+
+  createStore: (data: { storeName: string; address?: string; phone?: string; gstNumber?: string; ownerName: string; ownerEmail: string; ownerPassword: string }) =>
+    client.post('/admin/stores', data).then((r) => r.data),
+
+  updateStoreDetails: (storeId: string, data: { name?: string; address?: string; phone?: string; gstNumber?: string; footerMessage?: string; invoicePrefix?: string }) =>
+    client.put(`/admin/stores/${storeId}/details`, data).then((r) => r.data),
+
+  deleteStore: (storeId: string) =>
+    client.delete(`/admin/stores/${storeId}`).then((r) => r.data),
 };
